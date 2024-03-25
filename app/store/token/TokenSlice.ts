@@ -1,5 +1,6 @@
+
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { API_URL } from '../config';
+import { API_URL } from '@/app/config';
 
 export interface Values {
   email: string | null;
@@ -9,12 +10,21 @@ export interface FetchedData {
   token: string | null
 }
 
-interface UserState {
+interface tokenState {
   data: FetchedData | null;
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error: string | null;
-  isAuthenticated: boolean
+  token: string | null
 }
+
+const getFromLocalStorage = (key: string) => {
+  if (!key || typeof window === 'undefined') {
+      return ""
+  }
+  return localStorage.getItem(key)
+}
+
+console.log(getFromLocalStorage('qtToken'))
 
 
 export const getToken = createAsyncThunk('token', async (data: Values, thunkAPI) => {
@@ -31,14 +41,16 @@ export const getToken = createAsyncThunk('token', async (data: Values, thunkAPI)
 
   console.log(resData)
 
+  localStorage.setItem("qtToken", resData.token)
+
   return resData
 })
 
-const initialState: UserState = {
+const initialState: tokenState = {
   data: null,
   loading: 'idle',
   error: null,
-  isAuthenticated: false
+  token: getFromLocalStorage('qtToken') ? getFromLocalStorage('qtToken') : ''
 }
 
 export const tokenSlice = createSlice({
