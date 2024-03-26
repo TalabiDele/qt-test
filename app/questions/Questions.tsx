@@ -55,6 +55,20 @@ const Questions = () => {
 		},
 	})
 
+	const existingQuestions = [
+		{
+			id: 1,
+			question: 'Which horoscope sign is a fish?',
+			options: ['Aquarius', 'Cancer', 'Pisces'],
+		},
+		{
+			id: 2,
+			question:
+				'What was the name of the Franco-British supersonic commercial plane that operated from 1976-2003?',
+			options: ['Accord', 'Concorde', 'Mirage'],
+		},
+	]
+
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
@@ -127,6 +141,42 @@ const Questions = () => {
 			<EditModal values={values} />
 			<Alert id={id} />
 
+			{existingQuestions.map((question) => (
+				<div
+					key={question.id}
+					className='card w-[80%] bg-[#fff] shadow-sm p-[1rem] mb-[1rem] max-lg:w-full'
+				>
+					<h2 className=' font-md text-md mb-[0.5rem]'>{question?.question}</h2>
+					<div className=' grid grid-cols-2 gap-[0.5rem] mt-[1rem]'>
+						{question?.options?.map(
+							(option, index) =>
+								option !== '' && (
+									<p
+										key={index}
+										className={` text-sm mb-[0.5rem] border-[#808080] border p-[0.5rem] rounded-md cursor-pointer hover:bg-[#f8f8f8] transition-all duration-100 ease-in-out`}
+									>
+										{option}
+									</p>
+								)
+						)}
+					</div>
+					<div className=' mt-[1rem]'>
+						{/* <button
+							className='btn btn-info mr-[1rem] text-[#fff]'
+							// onClick={() => openEdit(question.id, questionData)}
+						>
+							Edit question
+						</button> */}
+						{/* <button
+							className='btn btn-error text-[#fff]'
+							onClick={() => openDeleteModal(questionId)}
+						>
+							Delete question */}
+						{/* </button> */}
+					</div>
+				</div>
+			))}
+
 			{loading === 'pending' ? (
 				<Loader />
 			) : getFromLocalStorage('qtToken') ? (
@@ -158,7 +208,7 @@ const Questions = () => {
 										className='btn btn-info mr-[1rem] text-[#fff]'
 										onClick={() => openEdit(questionId, questionData)}
 									>
-										Edit question
+										Add option
 									</button>
 									<button
 										className='btn btn-error text-[#fff]'
@@ -169,19 +219,6 @@ const Questions = () => {
 								</div>
 							</div>
 						))}
-					{data === null && (
-						<div className=' text-center w-[100%] mx-auto flex flex-col justify-center items-center h-[80vh]'>
-							<h1 className=' font-bold text-3xl mb-[2rem]'>
-								No questions available...
-							</h1>
-							<button
-								className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25] mt-[1rem]'
-								onClick={openModal}
-							>
-								Add Question
-							</button>
-						</div>
-					)}
 				</div>
 			) : (
 				<Error />

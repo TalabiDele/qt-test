@@ -86,15 +86,13 @@ const AddModal = () => {
 
 	return (
 		<div>
-			<div className='flex w-[80%] justify-end max-lg:w-[90vw] max-lg:mt-[2rem]'>
-				{data && Object.entries(data).length > 0 && (
-					<button
-						className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25] mt-[1rem]'
-						onClick={openModal}
-					>
-						Add Question
-					</button>
-				)}
+			<div className='flex mb-[1rem] w-[80%] justify-end max-lg:w-[90vw] max-lg:mt-[2rem]'>
+				<button
+					className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25] mt-[1rem]'
+					onClick={openModal}
+				>
+					Add Question
+				</button>
 			</div>
 			<dialog id='my_modal_1' className='modal'>
 				<div className='modal-box'>
@@ -104,7 +102,7 @@ const AddModal = () => {
 						</div>
 						<input
 							type='text'
-							placeholder='Type here'
+							placeholder='Enter question'
 							className='input input-bordered w-full '
 							value={values.question}
 							onChange={(e) =>
@@ -120,7 +118,7 @@ const AddModal = () => {
 								</div>
 								<input
 									type='text'
-									placeholder='Type here'
+									placeholder='Enter option'
 									className='input input-bordered w-full '
 									value={option}
 									onChange={(e) => handleInputChange(index, e.target.value)}
