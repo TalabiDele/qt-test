@@ -13,7 +13,9 @@ The solution involves creating a frontend application using Next.js. This applic
 ## Technology Stack
 
 **Framework: Next.js**
+
 **Styling: TailwindCSS & DaisyUI**
+
 **State Management: Redux Toolkit**
 
 
@@ -50,7 +52,7 @@ Navigate to the project directory.
 
 Install dependencies using ```npm install``` or ```yarn install```.
 
-Start the development server using ```npm run dev``` or ````yarn dev```.
+Start the development server using ```npm run dev``` or ```yarn dev```.
 
 Access the application in your browser at http://localhost:3000.
 
