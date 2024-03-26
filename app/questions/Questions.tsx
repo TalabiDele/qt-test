@@ -73,8 +73,6 @@ const Questions = () => {
 		(state: { token: { data: Token | null } }) => state.token.data
 	)
 
-	console.log(getFromLocalStorage('qtToken'))
-
 	const loading = useSelector(
 		(state: {
 			token: { loading: 'idle' | 'pending' | 'succeeded' | 'failed' }
@@ -122,11 +120,7 @@ const Questions = () => {
 				],
 			},
 		})
-
-		// console.log(values)
 	}
-
-	console.log('id', id)
 
 	return (
 		<div>

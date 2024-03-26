@@ -43,14 +43,9 @@ const AddModal = () => {
 			}
 		})
 
-		console.log('empty strings', all.length)
-
-		console.log(values.options.length)
-
 		if (values.question === '') {
 			toast.error('Question is required!')
 		} else if (all.length < 3 || all.length > 5) {
-			console.log('empty')
 			toast.error(
 				'Number of options must be greater than 3 and less than or equal to 5',
 				{
@@ -60,8 +55,6 @@ const AddModal = () => {
 		} else {
 			dispatch(addQuestions(values))
 		}
-
-		console.log(values)
 
 		if (loading === 'succeeded') {
 			toast.success('Question added!', {

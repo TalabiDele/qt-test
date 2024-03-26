@@ -11,8 +11,6 @@ interface Data {
 const Error = () => {
 	const [formValue, setFormValue] = useState<Data>({ email: '' })
 
-	console.log(formValue.email)
-
 	const dispatch = useAppDispatch()
 
 	const loading = useSelector(
@@ -27,8 +25,6 @@ const Error = () => {
 		if (loading === 'succeeded') {
 			// console.log(data)
 		}
-
-		console.log(values)
 	}
 
 	return (

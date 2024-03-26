@@ -16,8 +16,6 @@ const Page = async () => {
 		return localStorage.getItem(key)
 	}
 
-	console.log(getFromLocalStorage('qtToken'))
-
 	return (
 		<div>
 			<div className=' ml-[1rem] max-lg:w-[90vw] max-lg:m-auto'>

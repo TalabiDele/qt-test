@@ -12,8 +12,6 @@ const Alert: React.FC<Props> = ({ id }) => {
 
 	const router = useRouter()
 
-	console.log(id)
-
 	const handleDelete = () => {
 		dispatch(deleteQuestion(id))
 

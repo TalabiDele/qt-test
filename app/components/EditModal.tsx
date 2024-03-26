@@ -30,10 +30,6 @@ const EditModal: React.FC<Props> = ({ values }) => {
 		setData(values)
 	}, [values])
 
-	console.log('data', data)
-
-	console.log(values)
-
 	const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setData((prevState) => ({
 			...prevState,
@@ -42,8 +38,6 @@ const EditModal: React.FC<Props> = ({ values }) => {
 				question: e.target.value,
 			},
 		}))
-
-		console.log(data)
 	}
 
 	const handleOptionChange = (
@@ -62,8 +56,6 @@ const EditModal: React.FC<Props> = ({ values }) => {
 	}
 
 	const handleEditQuestion = () => {
-		console.log(data)
-
 		dispatch(editQuestion(data))
 
 		location.reload()

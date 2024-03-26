@@ -60,8 +60,6 @@ export const getToken = createAsyncThunk('token', async (data: Values, thunkAPI)
 
   const resData = await res.json()
 
-  console.log(resData)
-
   localStorage.setItem("qtToken", resData.token)
 
   return resData
@@ -83,8 +81,6 @@ export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) =>
     }
     const responseData = await response.json()
 
-    console.log(responseData)
-
     if (Object.entries(responseData).length === 0) {
       return null
     } else {
@@ -98,8 +94,6 @@ export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) =>
 
 export const addQuestions = createAsyncThunk('addQuestions', async (data: QuestionData, thunkAPI) => {
 
-  console.log(data?.options?.length)
-
     const res = await fetch(`${API_URL}/questions`, {
       method: 'POST',
       headers: headers,
@@ -108,16 +102,12 @@ export const addQuestions = createAsyncThunk('addQuestions', async (data: Questi
   
     const resData = await res.json()
   
-    console.log('add question', resData)
-  
     return resData
   
 
 })
 
 export const deleteQuestion = createAsyncThunk('deleteQuestion', async (data: string | null, thunkAPI) => {
-
-  console.log('delete data:', data)
 
   const res = await fetch(`${API_URL}/questions/${data}`, {
     method: 'DELETE',
@@ -126,14 +116,10 @@ export const deleteQuestion = createAsyncThunk('deleteQuestion', async (data: st
 
   const resData = await res.json()
 
-  console.log(resData)
-
   return resData
 })
 
 export const editQuestion = createAsyncThunk('editQuestion', async (data: EditData, thunkAPI) => {
-
-  console.log('delete id:', data?.id)
 
   const res = await fetch(`${API_URL}/questions/${data?.id}`, {
     method: 'PUT',
@@ -142,8 +128,6 @@ export const editQuestion = createAsyncThunk('editQuestion', async (data: EditDa
   })
 
   const resData = await res.json()
-
-  console.log(resData)
 
   return resData
 })
