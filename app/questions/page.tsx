@@ -20,7 +20,7 @@ const Page = async () => {
 
 	return (
 		<div>
-			<div className=' ml-[1rem]'>
+			<div className=' ml-[1rem] max-lg:w-[90vw] max-lg:m-auto'>
 				<h1 className=' font-bold text-xl mt-[1rem]'>Questions</h1>
 				<AddModal />
 

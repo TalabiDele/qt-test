@@ -65,7 +65,7 @@ const AddModal = () => {
 
 	return (
 		<div>
-			<div className='flex w-[80%] justify-end'>
+			<div className='flex w-[80%] justify-end max-lg:w-[90vw] max-lg:mt-[2rem]'>
 				{data && Object.entries(data).length > 0 && (
 					<button
 						className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25] mt-[1rem]'

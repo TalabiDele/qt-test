@@ -1,17 +1,18 @@
 import Link from 'next/link'
 import React from 'react'
+import { IoMenu } from 'react-icons/io5'
 
 const NavBar = () => {
 	return (
 		<div>
-			<div className='drawer lg:drawer-open h-screen sticky top-0'>
+			<div className='drawer lg:drawer-open h-screen sticky top-0 z-[100]'>
 				<input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
-				<div className='drawer-content flex flex-col items-center justify-center'>
+				<div className='drawer-content flex flex-col items-end absolute w-[90vw] top-[1rem]'>
 					<label
 						htmlFor='my-drawer-2'
 						className='btn btn-primary drawer-button lg:hidden'
 					>
-						Open drawer
+						<IoMenu fontSize={20} />
 					</label>
 				</div>
 				<div className='drawer-side'>

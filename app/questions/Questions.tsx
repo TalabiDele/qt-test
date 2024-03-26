@@ -133,12 +133,12 @@ const Questions = () => {
 			{loading === 'pending' ? (
 				<Loader />
 			) : getFromLocalStorage('qtToken') ? (
-				<div className=' mt-[1rem]'>
+				<div className=' mt-[1rem] max-lg:w-full'>
 					{data ? (
 						Object.entries(data).map(([questionId, questionData]) => (
 							<div
 								key={questionId}
-								className='card w-[80%] bg-[#fff] shadow-sm p-[1rem] mb-[1rem]'
+								className='card w-[80%] bg-[#fff] shadow-sm p-[1rem] mb-[1rem] max-lg:w-full'
 							>
 								<h2 className=' font-md text-md mb-[0.5rem]'>
 									{questionData?.question}
