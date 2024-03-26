@@ -6,6 +6,11 @@ export interface Values {
   email: string | null;
 }
 
+export interface Questions {
+  question: string
+	options: string[]
+}
+
 export interface FetchedData {
   token: string | null
 }
@@ -17,6 +22,15 @@ interface tokenState {
   token: string | null
 }
 
+interface QuestionData {
+	question: string
+	options: string[]
+}
+
+interface FetchedQuestionData {
+	[questionId: string]: QuestionData
+}
+
 const getFromLocalStorage = (key: string) => {
   if (!key || typeof window === 'undefined') {
       return ""
@@ -24,7 +38,7 @@ const getFromLocalStorage = (key: string) => {
   return localStorage.getItem(key)
 }
 
-console.log(getFromLocalStorage('qtToken'))
+const userToken = getFromLocalStorage('qtToken')
 
 
 export const getToken = createAsyncThunk('token', async (data: Values, thunkAPI) => {
@@ -42,6 +56,50 @@ export const getToken = createAsyncThunk('token', async (data: Values, thunkAPI)
   console.log(resData)
 
   localStorage.setItem("qtToken", resData.token)
+
+  return resData
+})
+
+const headers = new Headers()
+	headers.append('Host', 'qt.organogram.app')
+	headers.append('Token', userToken)
+	headers.append('Content-Type', 'application/json')
+
+export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) => {
+
+  try {
+    const response = await fetch(`${API_URL}/questions`, {
+      headers: headers,
+    })
+    if (!response.ok) {
+      console.log(response.status)
+    }
+    const responseData = await response.json()
+
+    console.log(responseData)
+
+    if (Object.entries(responseData).length === 0) {
+      return null
+    } else {
+      return responseData
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return error
+  }
+})
+
+export const addQuestions = createAsyncThunk('addQuestions', async (data: Questions, thunkAPI) => {
+
+  const res = await fetch(`${API_URL}/questions`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(data)
+  })
+
+  const resData = await res.json()
+
+  console.log(resData)
 
   return resData
 })
@@ -67,6 +125,24 @@ export const tokenSlice = createSlice({
     }).addCase(getToken.rejected, (state, action: PayloadAction<string>) => {
       state.loading = 'failed';
       state.error = action.payload;
+    }).addCase(addQuestions.pending, (state) => {
+      state.loading = 'pending'
+    }).addCase(addQuestions.fulfilled, (state, action: PayloadAction<FetchedData>) => {
+      state.loading = 'succeeded';
+      state.data = action.payload;
+      state.error = null;
+    }).addCase(addQuestions.rejected, (state, action:PayloadAction<string>) => {
+      state.loading = 'failed';
+      state.error = action.payload;
+    }).addCase(getQuestions.pending, (state) => {
+      state.loading = 'pending'
+    }).addCase(getQuestions.fulfilled, (state, action:PayloadAction<FetchedData>) => {
+      state.loading = 'succeeded';
+      state.data = action.payload;
+      state.error = null
+    }).addCase(getQuestions.rejected, (state, action: PayloadAction<string>) => {
+      state.loading = 'failed'
+      state.error = action.payload
     })
   },
 })

@@ -4,10 +4,9 @@ import React from 'react'
 const NavBar = () => {
 	return (
 		<div>
-			<div className='drawer lg:drawer-open'>
+			<div className='drawer lg:drawer-open h-screen sticky top-0'>
 				<input id='my-drawer-2' type='checkbox' className='drawer-toggle' />
 				<div className='drawer-content flex flex-col items-center justify-center'>
-					{/* Page content here */}
 					<label
 						htmlFor='my-drawer-2'
 						className='btn btn-primary drawer-button lg:hidden'
@@ -22,7 +21,6 @@ const NavBar = () => {
 						className='drawer-overlay'
 					></label>
 					<ul className='menu p-4 w-[15rem] min-h-full bg-white text-base-content shadow-md'>
-						{/* Sidebar content here */}
 						<Link href={'/'}>
 							<h1 className=' font-bold text-2xl mb-[4rem]'>QuestionTime</h1>
 						</Link>

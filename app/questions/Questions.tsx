@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch } from '../store/store'
 import { useSelector } from 'react-redux'
-import { getToken } from '../store/token/TokenSlice'
+import { getQuestions, getToken } from '../store/token/TokenSlice'
 import Error from './Error'
 import { API_URL } from '../config'
+import AddModal from '../components/AddModal'
 
 interface Token {
 	token: string
@@ -33,11 +34,14 @@ interface FetchedData {
 }
 
 const Questions = () => {
-	const [data, setData] = useState<FetchedData | null>(null)
+	// const [data, setData] = useState<FetchedData | null>(null)
+
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		handleQuestions()
-	}, [])
+		// handleQuestions()
+		dispatch(getQuestions())
+	}, [dispatch])
 
 	const getFromLocalStorage = (key: string) => {
 		if (!key || typeof window === 'undefined') {
@@ -58,64 +62,52 @@ const Questions = () => {
 		}) => state.token.loading
 	)
 
-	const userToken: string | null = getFromLocalStorage('qtToken')
-		? getFromLocalStorage('qtToken')
-		: ''
+	const data = useSelector(
+		(state: { token: { data: FetchedData | null } }) => state.token.data
+	)
 
-	console.log(userToken)
-
-	const headers = new Headers()
-	headers.append('Host', 'qt.organogram.app')
-	headers.append('Token', userToken)
-	headers.append('Content-Type', 'application/json')
-
-	const handleQuestions = async () => {
-		try {
-			const response = await fetch(`${API_URL}/questions`, {
-				headers: headers,
-			})
-			if (!response.ok) {
-				console.log(response.status)
-			}
-			const responseData = await response.json()
-
-			if (Object.entries(responseData).length === 0) {
-				setData(null)
-			} else {
-				setData(responseData)
-			}
-
-			console.log(responseData)
-		} catch (error) {
-			console.error('Error fetching data:', error)
-		}
-	}
-
-	console.log('fetched data:', data)
+	console.log(data)
 
 	return (
 		<div>
 			{getFromLocalStorage('qtToken') ? (
-				<div className=''>
+				<div className=' mt-[1rem]'>
 					{data ? (
 						Object.entries(data).map(([questionId, questionData]) => (
-							<li key={questionId}>
-								<h2>{questionData.question}</h2>
-								<div>
-									{questionData.options.map((option, index) => (
-										<li key={index}>{option}</li>
+							<div
+								key={questionId}
+								className='card w-[80%] bg-[#fff] shadow-sm p-[1rem] mb-[1rem]'
+							>
+								<h2 className=' font-md text-md mb-[0.5rem]'>
+									{questionData?.question}
+								</h2>
+								<div className=' grid grid-cols-2 gap-[0.5rem] mt-[1rem]'>
+									{questionData?.options?.map((option, index) => (
+										<p
+											key={index}
+											className=' text-sm mb-[0.5rem] border-[#808080] border p-[0.5rem] rounded-md cursor-pointer hover:bg-[#f8f8f8] transition-all duration-100 ease-in-out'
+										>
+											{option}
+										</p>
 									))}
 								</div>
-							</li>
+								<div className=' mt-[1rem]'>
+									<button className='btn btn-info mr-[1rem] text-[#fff]'>
+										Edit question
+									</button>
+									<button className='btn btn-error text-[#fff]'>
+										Delete question
+									</button>
+								</div>
+							</div>
 						))
 					) : (
 						<div className=' text-center w-[100%] mx-auto flex flex-col justify-center items-center h-[80vh]'>
 							<h1 className=' font-bold text-3xl mb-[2rem]'>
 								No questions available...
 							</h1>
-							<button className='btn btn-wide bg-[#17171C] text-[#fff] hover:bg-[#1f1f25]'>
-								Add Question
-							</button>
+
+							<AddModal />
 						</div>
 					)}
 				</div>

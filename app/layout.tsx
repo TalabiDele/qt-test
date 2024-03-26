@@ -21,9 +21,9 @@ export default function RootLayout({
 		<html lang='en'>
 			<Providers>
 				<body className={inter.className}>
-					<div className=' flex'>
+					<div className=' flex relative right-0 left-0'>
 						<NavBar />
-						<main className=' w-[100%]'>{children}</main>
+						<main className=' w-[100%] pb-[5rem] relative'>{children}</main>
 					</div>
 				</body>
 			</Providers>
