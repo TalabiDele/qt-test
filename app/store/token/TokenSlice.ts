@@ -41,7 +41,8 @@ const getFromLocalStorage = (key: string) => {
   if (!key || typeof window === 'undefined') {
       return ""
   }
-  return localStorage.getItem(key)
+  const item = localStorage.getItem(key)
+  return item !== null ? item : "";
 }
 
 const userToken = getFromLocalStorage('qtToken')
@@ -98,7 +99,7 @@ export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) =>
 export const addQuestions = createAsyncThunk('addQuestions', async (data: QuestionData, thunkAPI) => {
 
   console.log(data?.options?.length)
-  
+
     const res = await fetch(`${API_URL}/questions`, {
       method: 'POST',
       headers: headers,
