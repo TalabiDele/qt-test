@@ -31,7 +31,7 @@ Provide a button to add new questions.
 Allow removing or adding new options to questions.
 Ensure the UI adheres to responsive design principles.
 Deployment
-The frontend application is deployed to a publicly accessible location for testing purposes. You can access the deployed application here (https://qt-test-talabidele.vercel.app).
+The frontend application is deployed to a publicly accessible location for testing purposes. You can access the deployed application here [here](https://qt-test-talabidele.vercel.app).
 
 ## Implementation Notes
 
