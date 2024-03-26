@@ -31,6 +31,11 @@ interface FetchedQuestionData {
 	[questionId: string]: QuestionData
 }
 
+interface EditData {
+  id: string
+  data: QuestionData
+}
+
 const getFromLocalStorage = (key: string) => {
   if (!key || typeof window === 'undefined') {
       return ""
@@ -89,12 +94,45 @@ export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) =>
   }
 })
 
-export const addQuestions = createAsyncThunk('addQuestions', async (data: Questions, thunkAPI) => {
+export const addQuestions = createAsyncThunk('addQuestions', async (data: QuestionData, thunkAPI) => {
 
   const res = await fetch(`${API_URL}/questions`, {
     method: 'POST',
     headers: headers,
     body: JSON.stringify(data)
+  })
+
+  const resData = await res.json()
+
+  console.log('add question', resData)
+
+  return resData
+})
+
+export const deleteQuestion = createAsyncThunk('deleteQuestion', async (data: string | null, thunkAPI) => {
+
+  console.log('delete data:', data)
+
+  const res = await fetch(`${API_URL}/questions/${data}`, {
+    method: 'DELETE',
+    headers: headers,
+  })
+
+  const resData = await res.json()
+
+  console.log(resData)
+
+  return resData
+})
+
+export const editQuestion = createAsyncThunk('editQuestion', async (data: EditData, thunkAPI) => {
+
+  console.log('delete id:', data?.id)
+
+  const res = await fetch(`${API_URL}/questions/${data?.id}`, {
+    method: 'PUT',
+    headers: headers,
+    body: JSON.stringify(data?.data)
   })
 
   const resData = await res.json()
@@ -141,6 +179,24 @@ export const tokenSlice = createSlice({
       state.data = action.payload;
       state.error = null
     }).addCase(getQuestions.rejected, (state, action: PayloadAction<string>) => {
+      state.loading = 'failed'
+      state.error = action.payload
+    }).addCase(deleteQuestion.pending, (state) => {
+      state.loading = 'pending'
+    }).addCase(deleteQuestion.fulfilled, (state, action:PayloadAction<FetchedData>) => {
+      state.loading = 'succeeded';
+      state.data = action.payload;
+      state.error = null
+    }).addCase(deleteQuestion.rejected, (state, action: PayloadAction<string>) => {
+      state.loading = 'failed'
+      state.error = action.payload
+    }).addCase(editQuestion.pending, (state) => {
+      state.loading = 'pending'
+    }).addCase(editQuestion.fulfilled, (state, action:PayloadAction<FetchedData>) => {
+      state.loading = 'succeeded';
+      state.data = action.payload;
+      state.error = null
+    }).addCase(editQuestion.rejected, (state, action: PayloadAction<string>) => {
       state.loading = 'failed'
       state.error = action.payload
     })

@@ -3,10 +3,16 @@ import React, { useState } from 'react'
 import { useAppDispatch } from '../store/store'
 import { addQuestions, getQuestions } from '../store/token/TokenSlice'
 import { useSelector } from 'react-redux'
+// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 interface Values {
 	question: string
 	options: string[]
+}
+
+export interface FetchedData {
+	[questionId: string]: Values
 }
 
 const AddModal = () => {
@@ -14,6 +20,8 @@ const AddModal = () => {
 		question: '',
 		options: ['', '', ''],
 	})
+
+	const router = useRouter()
 
 	const dispatch = useAppDispatch()
 
@@ -27,8 +35,11 @@ const AddModal = () => {
 		dispatch(addQuestions(values))
 		console.log(values)
 
+		// location.reload()
+
 		if (loading === 'succeeded') {
-			dispatch(getQuestions())
+			// dispatch(getQuestions())
+			location.reload()
 		}
 	}
 
@@ -48,15 +59,21 @@ const AddModal = () => {
 		})
 	}
 
+	const data = useSelector(
+		(state: { token: { data: FetchedData | null } }) => state.token.data
+	)
+
 	return (
 		<div>
 			<div className='flex w-[80%] justify-end'>
-				<button
-					className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25] mt-[1rem]'
-					onClick={openModal}
-				>
-					Add Question
-				</button>
+				{data && Object.entries(data).length > 0 && (
+					<button
+						className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25] mt-[1rem]'
+						onClick={openModal}
+					>
+						Add Question
+					</button>
+				)}
 			</div>
 			<dialog id='my_modal_1' className='modal'>
 				<div className='modal-box'>
@@ -91,14 +108,13 @@ const AddModal = () => {
 						))}
 					</div>
 					<div className='modal-action flex w-full justify-between'>
-						<button
-							className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25]'
-							onClick={() => handleAddQuestions(values)}
-						>
-							Submit
-						</button>
-
 						<form method='dialog'>
+							<button
+								className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25]'
+								onClick={() => handleAddQuestions(values)}
+							>
+								Submit
+							</button>
 							<button className='btn border-[#17171C] text-[#1f1f25] hover:bg-[#ccc] bg-none'>
 								Close
 							</button>
