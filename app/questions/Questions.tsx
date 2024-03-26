@@ -144,14 +144,17 @@ const Questions = () => {
 									{questionData?.question}
 								</h2>
 								<div className=' grid grid-cols-2 gap-[0.5rem] mt-[1rem]'>
-									{questionData?.options?.map((option, index) => (
-										<p
-											key={index}
-											className={` text-sm mb-[0.5rem] border-[#808080] border p-[0.5rem] rounded-md cursor-pointer hover:bg-[#f8f8f8] transition-all duration-100 ease-in-out`}
-										>
-											{option}
-										</p>
-									))}
+									{questionData?.options?.map(
+										(option, index) =>
+											option !== '' && (
+												<p
+													key={index}
+													className={` text-sm mb-[0.5rem] border-[#808080] border p-[0.5rem] rounded-md cursor-pointer hover:bg-[#f8f8f8] transition-all duration-100 ease-in-out`}
+												>
+													{option}
+												</p>
+											)
+									)}
 								</div>
 								<div className=' mt-[1rem]'>
 									<button

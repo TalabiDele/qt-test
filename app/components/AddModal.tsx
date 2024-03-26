@@ -5,6 +5,7 @@ import { addQuestions, getQuestions } from '../store/token/TokenSlice'
 import { useSelector } from 'react-redux'
 // import { useRouter } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 interface Values {
 	question: string
@@ -18,7 +19,7 @@ export interface FetchedData {
 const AddModal = () => {
 	const [values, setValues] = useState<Values>({
 		question: '',
-		options: ['', '', ''],
+		options: ['', '', '', '', ''],
 	})
 
 	const router = useRouter()
@@ -32,9 +33,35 @@ const AddModal = () => {
 	)
 
 	const handleAddQuestions = (values: Values) => {
-		dispatch(addQuestions(values))
-		console.log(values)
+		// if(values.)
 
+		let all = []
+
+		values.options.map((e) => {
+			if (e !== '') {
+				all.push(e)
+			}
+		})
+
+		console.log('empty strings', all.length)
+
+		console.log(values.options.length)
+
+		if (values.question === '') {
+			toast.error('Question is required!')
+		} else if (all.length < 3 || all.length > 5) {
+			console.log('empty')
+			toast.error(
+				'Number of options must be greater than 3 and less than or equal to 5',
+				{
+					duration: 6000,
+				}
+			)
+		} else {
+			dispatch(addQuestions(values))
+		}
+
+		console.log(values)
 		// location.reload()
 
 		if (loading === 'succeeded') {
@@ -108,13 +135,13 @@ const AddModal = () => {
 						))}
 					</div>
 					<div className='modal-action flex w-full justify-between'>
+						<button
+							className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25]'
+							onClick={() => handleAddQuestions(values)}
+						>
+							Submit
+						</button>
 						<form method='dialog'>
-							<button
-								className='btn bg-[#17171C] text-[#fff] hover:bg-[#1f1f25]'
-								onClick={() => handleAddQuestions(values)}
-							>
-								Submit
-							</button>
 							<button className='btn border-[#17171C] text-[#1f1f25] hover:bg-[#ccc] bg-none'>
 								Close
 							</button>

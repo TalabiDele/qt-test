@@ -1,6 +1,7 @@
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { API_URL } from '@/app/config';
+import { toast } from 'react-hot-toast';
 
 export interface Values {
   email: string | null;
@@ -96,17 +97,21 @@ export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) =>
 
 export const addQuestions = createAsyncThunk('addQuestions', async (data: QuestionData, thunkAPI) => {
 
-  const res = await fetch(`${API_URL}/questions`, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
-  })
+  console.log(data?.options?.length)
+  
+    const res = await fetch(`${API_URL}/questions`, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    })
+  
+    const resData = await res.json()
+  
+    console.log('add question', resData)
+  
+    return resData
+  
 
-  const resData = await res.json()
-
-  console.log('add question', resData)
-
-  return resData
 })
 
 export const deleteQuestion = createAsyncThunk('deleteQuestion', async (data: string | null, thunkAPI) => {
