@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { getToken } from '../store/token/TokenSlice'
 import { useAppDispatch } from '../store/store'
 import { useSelector } from 'react-redux'
+import toast from 'react-hot-toast'
 
 interface Data {
 	email: string
@@ -20,10 +21,20 @@ const Error = () => {
 	)
 
 	const handleToken = (values: Data) => {
-		dispatch(getToken(values))
+		if (values.email === '') {
+			toast.error('Enter a valid email address!', {
+				duration: 6000,
+			})
+		} else {
+			dispatch(getToken(values))
+			if (loading === 'succeeded') {
+				// console.log(data)
+				toast.success('Token created!', {
+					duration: 6000,
+				})
 
-		if (loading === 'succeeded') {
-			// console.log(data)
+				location.reload()
+			}
 		}
 	}
 

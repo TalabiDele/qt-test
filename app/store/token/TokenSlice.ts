@@ -81,7 +81,7 @@ export const getQuestions = createAsyncThunk('getQuestions', async (thunkAPI) =>
     }
     const responseData = await response.json()
 
-    if (Object.entries(responseData).length === 0) {
+    if (responseData && Object.entries(responseData).length === 0) {
       return null
     } else {
       return responseData

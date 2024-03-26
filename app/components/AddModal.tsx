@@ -54,13 +54,13 @@ const AddModal = () => {
 			)
 		} else {
 			dispatch(addQuestions(values))
-		}
 
-		if (loading === 'succeeded') {
-			toast.success('Question added!', {
-				duration: 6000,
-			})
-			location.reload()
+			if (loading === 'succeeded') {
+				toast.success('Question added!', {
+					duration: 6000,
+				})
+				location.reload()
+			}
 		}
 	}
 

@@ -126,11 +126,12 @@ const Questions = () => {
 		<div>
 			<EditModal values={values} />
 			<Alert id={id} />
+
 			{loading === 'pending' ? (
 				<Loader />
 			) : getFromLocalStorage('qtToken') ? (
 				<div className=' mt-[1rem] max-lg:w-full'>
-					{data ? (
+					{data &&
 						Object.entries(data).map(([questionId, questionData]) => (
 							<div
 								key={questionId}
@@ -167,8 +168,8 @@ const Questions = () => {
 									</button>
 								</div>
 							</div>
-						))
-					) : (
+						))}
+					{data === null && (
 						<div className=' text-center w-[100%] mx-auto flex flex-col justify-center items-center h-[80vh]'>
 							<h1 className=' font-bold text-3xl mb-[2rem]'>
 								No questions available...
