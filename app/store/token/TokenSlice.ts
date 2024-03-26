@@ -1,5 +1,5 @@
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, isRejected, PayloadAction } from '@reduxjs/toolkit'
 import { API_URL } from '@/app/config';
 import { toast } from 'react-hot-toast';
 
@@ -166,46 +166,34 @@ export const tokenSlice = createSlice({
       state.loading = 'succeeded';
       state.data = action.payload;
       state.error = null;
-    }).addCase(getToken.rejected, (state, action: PayloadAction<string>) => {
-      state.loading = 'failed';
-      state.error = action.payload;
     }).addCase(addQuestions.pending, (state) => {
       state.loading = 'pending'
     }).addCase(addQuestions.fulfilled, (state, action: PayloadAction<FetchedData>) => {
       state.loading = 'succeeded';
       state.data = action.payload;
       state.error = null;
-    }).addCase(addQuestions.rejected, (state, action:PayloadAction<string>) => {
-      state.loading = 'failed';
-      state.error = action.payload;
     }).addCase(getQuestions.pending, (state) => {
       state.loading = 'pending'
     }).addCase(getQuestions.fulfilled, (state, action:PayloadAction<FetchedData>) => {
       state.loading = 'succeeded';
       state.data = action.payload;
       state.error = null
-    }).addCase(getQuestions.rejected, (state, action: PayloadAction<string>) => {
-      state.loading = 'failed'
-      state.error = action.payload
     }).addCase(deleteQuestion.pending, (state) => {
       state.loading = 'pending'
     }).addCase(deleteQuestion.fulfilled, (state, action:PayloadAction<FetchedData>) => {
       state.loading = 'succeeded';
       state.data = action.payload;
       state.error = null
-    }).addCase(deleteQuestion.rejected, (state, action: PayloadAction<string>) => {
-      state.loading = 'failed'
-      state.error = action.payload
     }).addCase(editQuestion.pending, (state) => {
       state.loading = 'pending'
     }).addCase(editQuestion.fulfilled, (state, action:PayloadAction<FetchedData>) => {
       state.loading = 'succeeded';
       state.data = action.payload;
       state.error = null
-    }).addCase(editQuestion.rejected, (state, action: PayloadAction<string>) => {
-      state.loading = 'failed'
-      state.error = action.payload
-    })
+    }).addMatcher(isRejected, (state, action) => {
+      // Handle all rejected actions
+      state.error = action.error.message === "Network Error" ? "Network Error" : "Unexpected Error";
+    });
   },
 })
 
