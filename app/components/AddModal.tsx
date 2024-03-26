@@ -62,10 +62,11 @@ const AddModal = () => {
 		}
 
 		console.log(values)
-		// location.reload()
 
 		if (loading === 'succeeded') {
-			// dispatch(getQuestions())
+			toast.success('Question added!', {
+				duration: 6000,
+			})
 			location.reload()
 		}
 	}

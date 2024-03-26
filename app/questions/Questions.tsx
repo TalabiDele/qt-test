@@ -51,7 +51,7 @@ const Questions = () => {
 		id: '',
 		data: {
 			question: '',
-			options: ['', '', ''],
+			options: ['', '', '', '', ''],
 		},
 	})
 
@@ -117,6 +117,8 @@ const Questions = () => {
 					questionData?.options[0],
 					questionData?.options[1],
 					questionData?.options[2],
+					questionData?.options[3],
+					questionData?.options[4],
 				],
 			},
 		})
